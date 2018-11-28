@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Task Manager</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{{ url_for('static', filename='fonts/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{{ url_for('static', filename='css/nprogress.css') }}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="{{ url_for('static', filename='css/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='images/favicon.ico') }}" rel="icon">
+    <!-- Custom Theme Style -->
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+</head>
+<body class="login">
+<div>
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                <form method="POST" action="{{ url_for('login') }}">
+                    <h1>Task Submission Portal</h1>
+                    {{ form.hidden_tag() if form.hidden_tag }}
+                    {% for f in form if f.type != 'CSRFTokenField' %}
+                        <div>
+                            {{ f.label }}
+                            {{ f }}
+                        </div>
+                    {% endfor %}
+                    {% for f in form if f.type != 'CSRFTokenField' %}
+                        {% if f.errors %}
+                            <ul style="list-style: none; color: red">
+                                {% for e in f.errors %}
+                                    <li style="text-align: left;">{{ e }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                    {% with msgs = get_flashed_messages() %}
+                        {% if msgs %}
+                            {%- for msg in msgs %}
+                                {% if msg == "account_deactivated" %}
+                                    <ul style="list-style: none; color: red">
+                                        <li style="text-align: left;">Your account is deactivated, please contact TL </li>
+                                    </ul>
+                                {% endif %}
+                            {% endfor -%}
+                        {% endif %}
+                    {% endwith %}
+                    <button class="btn" type="submit">Login &gt;</button>
+                    <div class="clearfix"></div>
+                    <div class="separator">
+                        <div class="clearfix"></div>
+                        <br/>
+                        <div>
+                            <h1>
+                                <img src="../static/images/favicon.ico" width="30px" height="30px"> DRC Systems India
+                                Pvt. Ltd.
+                            </h1>
+                            <p>© 2017 All Rights Reserved by DRC Systems India Pvt. Ltd.</p>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    document.onreadystatechange = function () {
+        var login = document.getElementById('login');
+        var password = document.getElementById('password');
+        login.className='form-control';
+        password.className='form-control';
+    };
+</script>
+</body>
+</html>
+
+
+

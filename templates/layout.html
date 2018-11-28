@@ -1,0 +1,213 @@
+{% import 'admin/layout.html' as layout with context -%}
+{#{% import 'admin/static.html' as admin_static with context %}#}
+{% extends 'admin/base.html' %}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#  <head>#}
+{% block title %}
+    Task Manager
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block head_tail %}
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <!-- Font Awesome -->
+    <link href="{{ url_for('static', filename='fonts/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{{ url_for('static', filename='css/nprogress.css') }}" rel="stylesheet">
+    <!-- Docs -->
+    <link href="{{ url_for('static', filename='css/docs.css') }}" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+{% endblock %}
+{#  </head>#}
+{#  <body>#}
+{% block page_body %}
+    <div id="body" class="nav-md">
+        <div class="container body">
+            <div class="main_container">
+                <div class="col-md-3 left_col menu_fixed">
+                    <div class="left_col scroll-view">
+                        <div class="navbar nav_title" style="border: 0;">
+                            <a href="javascript:void(0);" class="site_title"><i class="fa fa-tasks"></i>
+                                <span>Task Manager</span></a>
+                        </div>
+                        <div class="clearfix"></div>
+                        {% block brand %}
+                            {#                    <a class="navbar-brand" href="{{ admin_view.admin.url }}">{{ admin_view.admin.name }}</a>#}
+                        {% endblock %}
+                        <!-- menu profile quick info -->
+                        <div class="profile clearfix">
+                            {% if current_user.is_authenticated %}
+                                <div class="profile_pic">
+                                    <img src="{{ url_for('static', filename='images/default.jpg') }}" alt="..."
+                                         class="img-circle profile_img">
+                                </div>
+                                <div class="profile_info">
+                                    <span>Welcome,</span>
+                                    <h2>{{ current_user.erp_user_name }}</h2>
+                                </div>
+                            {% else %}
+                                <div class="profile_info">
+                                    <span>Please login to access your account</span>
+                                </div>
+                            {% endif %}
+                            <div class="clearfix"></div>
+                        </div>
+                        <!-- /menu profile quick info -->
+
+                        <br/>
+
+                        <!-- sidebar menu -->
+                        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                            <div class="menu_section">
+                                {#                                <h3>General</h3>#}
+                                {% block main_menu %}
+                                    <ul class="nav side-menu">
+                                        {{ layout.menu() }}
+                                        {#                                        <li>#}
+                                        {#                                            <a>All Projects</a>#}
+                                        {#                                        </li>#}
+                                    </ul>
+                                {% endblock %}
+                                {% block menu_links %}
+                                    <ul class="nav navbar-nav navbar-right">
+                                        {{ layout.menu_links() }}
+                                    </ul>
+                                {% endblock %}
+                            </div>
+                        </div>
+                        <!-- /sidebar menu -->
+                    </div>
+                </div>
+
+
+                {# store the jinja2 context for form_rules rendering logic #}
+                {% set render_ctx = h.resolve_ctx() %}
+
+                <!-- top navigation -->
+                <div class="top_nav">
+                    <div class="nav_menu">
+                        <nav>
+                            {#                            <div class="nav toggle">#}
+                            {#                                <a id="menu_toggle"><i class="fa fa-bars"></i></a>#}
+                            {#                            </div>#}
+
+                            {% block access_control %}
+                                {% if current_user.is_authenticated %}
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="">
+                                            <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                                               aria-expanded="false">
+                                                <img src="{{ url_for('static', filename='images/default.jpg') }}"
+                                                     alt="">{{ current_user.erp_user_name }}
+                                                <span class=" fa fa-angle-down"></span>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                <li><a href="{{ url_for('logout') }}"><i
+                                                        class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                {% endif %}
+                            {% endblock %}
+
+                        </nav>
+                    </div>
+                </div>
+                <!-- /top navigation -->
+
+                <!-- page content -->
+
+                <div class="right_col" role="main">
+                    <div class="">
+                        <br>
+
+                        {% block messages %}
+                            {{ layout.messages() }}
+                        {% endblock %}
+
+                        {% block body %}
+                            <div class="page-title">
+                                <div class="title_left">
+                                    <h3>Plain Page</h3>
+                                </div>
+
+                                <div class="title_right">
+                                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search for...">
+                                            <span class="input-group-btn"><button class="btn btn-default"
+                                                                                  type="button">Go!</button></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_panel">
+                                        <div class="x_title">
+                                            <h2>Plain Page</h2>
+                                            <ul class="nav navbar-right panel_toolbox">
+                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                                       role="button"
+                                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a href="#">Settings 1</a>
+                                                        </li>
+                                                        <li><a href="#">Settings 2</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+                                            Add content to the page ...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endblock %}
+                    </div>
+                </div>
+
+                <!-- /page content -->
+
+                <!-- footer content -->
+                <footer>
+                    <div class="pull-right">
+                        Task Manager - <a href="https://www.drcsystems.com">DRC Systems India Pvt. Ltd.</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </footer>
+                <!-- /footer content -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block tail %}
+    <!-- FastClick -->
+    <script src="{{ url_for('static', filename='js/fastclick.js') }}"></script>
+    <!-- NProgress -->
+    <script src="{{ url_for('static', filename='js/nprogress.js') }}"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    {% block js_extra %}
+    {% endblock %}
+{% endblock %}
+
+{#  </body>#}
+{#</html>#}

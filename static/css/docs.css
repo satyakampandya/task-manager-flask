@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand:500,700');
+
+/* Body and General Styles Start
+-------------------------------------------------- */
+body {
+    font-family: 'Quicksand', sans-serif !important;
+    height: 100vh;
+    color: #5D82A7;
+}
+
+.present {
+    color: #00cc00;
+}
+
+.absent {
+    color: #cc0000;
+}
+
+.generate_xls {
+    text-align: center !important;
+}
+
+.form-horizontal{
+    margin-top: 40px !important;
+}
+
+.fa-minus-circle{
+    color: #cc0000;
+}
+
+.fa-check-circle{
+    color: #00cc00;
+}
+
+.fa-eye{
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 1px;
+}
+.fa-pencil{
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    margin: 1px;
+    padding: 5px 5px 5px 7px;
+}
+
+.close-icon{
+    margin-right: 5px;
+    font-size: 120%;
+}
+
+.fa-trash{
+    color: #cc0000;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    padding: 5px 6px;
+    margin: 1px;
+}

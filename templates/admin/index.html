@@ -1,0 +1,262 @@
+{% extends 'layout.html' %}
+{% block head %}
+    <link href="{{ url_for('static', filename='css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block access_control %}
+    {% if current_user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right">
+            <li class="">
+                <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                   aria-expanded="false">
+                    <img src="{{ url_for('static', filename='images/default.jpg') }}"
+                         alt="">{{ current_user.erp_user_name }}
+                    <span class=" fa fa-angle-down"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="{{ url_for('logout') }}"><i class="fa fa-sign-out pull-right"></i> Log
+                        Out</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if current_user.is_authenticated %}
+        {% if current_user.tm_user_role == 'admin' %}
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Quick View
+                        <small>of {{ date }}</small>
+                    </h3>
+                </div>
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right">
+                        <form class="form-inline" action="{{ url_for('admin.index') }}" method="post" name="quickview"
+                              id="quickview">
+                            <div class="form-group">
+                                <label class="sr-only" for="quick_date">Quick View of</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="quick_date" name="quick_date"
+                                           value="{{ date }}" data-date-end-date="0d">
+                                    <div class="input-group-addon cursor_pointer"
+                                         onclick="document.getElementById('quickview').submit()">
+                                        <i class="fa fa-search "
+                                           aria-hidden="true"></i></div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            {% if present %}
+                <a href="{{ url_for('admin.action_all', date=date ) }}">
+                    <button type="button" class="btn btn-primary btn-sm">
+                        Download All
+                    </button>
+                </a>
+                <a href="{{ url_for('admin.action_project_wise', date=date ) }}">
+                    <button type="button" class="btn btn-primary btn-sm">
+                        Download Project-wise
+                    </button>
+                </a>
+            {% endif %}
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Task Submission is Completed</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Developer</th>
+                                    <th>Download Latest</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if present %}
+                                    {% for user in present %}
+                                        <tr>
+                                            <td>
+                                                <span class="present"> &bull; </span>
+                                                {{ user.relative_developer.erp_user_name }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ url_for('admin.action_developer', date=date, developer=user.tm_developer ) }}"
+                                                   title="{{ date.replace("-","_") }}">
+                                                    <button type="button" class="btn btn-default btn-sm">
+                                                        <i class="fa fa-download" aria-hidden="true"></i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td>--</td>
+                                        <td>--</td>
+                                    </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2> Task Submission is Pending </h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Developers</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if absent %}
+                                    {% for user in absent %}
+                                        <tr>
+                                            <td>
+                                                <span class="absent"> &bull; </span>
+                                                {{ user.erp_user_name }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td>--</td>
+                                    </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        {% else %}
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Quick View
+                        <small>of {{ date }}</small>
+                    </h3>
+                </div>
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right">
+                        <form class="form-inline" action="{{ url_for('admin.index') }}" method="post" name="quickview"
+                              id="quickview">
+                            <div class="form-group">
+                                <label class="sr-only" for="quick_date">Quick View of</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="quick_date" name="quick_date"
+                                           value="{{ date }}" data-date-end-date="0d">
+                                    <div class="input-group-addon cursor_pointer"
+                                         onclick="document.getElementById('quickview').submit()">
+                                        <i class="fa fa-search "
+                                           aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>List of Tasks
+                            </h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="50%">Task's Project ID</th>
+                                    <th width="50%">Task Title</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if present or absent %}
+                                    {% if present %}
+                                        {% for task in present %}
+                                            <tr>
+                                                <td>
+                                                    <span class="present"> &bull; </span>
+                                                    {{ task.relative_project.erp_project_id }}
+                                                </td>
+                                                <td>
+                                                    {{ task.tm_task_title }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if absent %}
+                                        {% for task in absent %}
+                                            <tr>
+                                                <td>
+                                                    <span class="absent"> &bull; </span>
+                                                    {{ task.relative_project.erp_project_id }}
+                                                </td>
+                                                <td>
+                                                    {{ task.tm_task_title }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% else %}
+                                    <tr>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                    </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            {% if is_there_tasks %}
+                <div class="generate_xls">
+                    <a href="{{ url_for('admin.action_all', date=date ) }}">
+                        <button type="button" class="btn btn-primary btn-sm">
+                            Download XLS
+                        </button>
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+{% endblock body %}
+{% block js_extra %}
+    <script src="{{ url_for('static', filename='js/bootstrap-datepicker.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+
+            var quick_date_selector = $('#quick_date');
+
+            quick_date_selector.datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true
+            });
+            quick_date_selector.change(function () {
+                document.getElementById('quickview').submit();
+            });
+
+        });
+    </script>
+{% endblock %}
