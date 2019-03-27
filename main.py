@@ -1,6 +1,8 @@
 # coding=utf-8
 """
 Task Manager implemented using flask admin
+To run server,
+    python main.py
 """
 import cookielib
 import glob
@@ -1767,13 +1769,20 @@ def build_sample_db():
     db.init_app(app)
     db.drop_all()
     db.create_all()
-    tl_user = Users(erp_user_id=101, erp_user_name="ChandPrakash Rawat",
-                    tm_email_id="chandprakash@drcsystems.com",
-                    tm_password=generate_password_hash("Drc@1234", method='sha256'),
+    tl_user = Users(erp_user_id=101, erp_user_name=app.config['TL_USER_NAME'],
+                    tm_email_id=app.config['TL_USER_EMAIL'],
+                    tm_password=generate_password_hash(app.config['TL_USER_PASSWORD'], method='sha256'),
                     tm_user_role="admin")
     db.session.add(tl_user)
     db.session.commit()
     gen_dp_all()
+
+
+@app.cli.command('initdb')
+def initdb_command():
+    """Initializes the database."""
+    build_sample_db()
+    print('Initialized the database.')
 
 
 if __name__ == '__main__':

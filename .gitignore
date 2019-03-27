@@ -109,3 +109,4 @@ venv.bak/
 *.db
 zip_data/
 xls_data/
+static/images/user_images/
